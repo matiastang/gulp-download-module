@@ -2,7 +2,7 @@
  * @Author: matiastang
  * @Date: 2021-12-16 17:23:09
  * @LastEditors: matiastang
- * @LastEditTime: 2021-12-16 18:01:06
+ * @LastEditTime: 2021-12-21 11:15:50
  * @FilePath: /gulp-cli/gulpfile.js
  * @Description: gulp
  */
@@ -10,10 +10,11 @@
 const gulp = require('gulp')
 const plugins = require('gulp-load-plugins')();
 const gulpfs = require('fs');
-const gulpTaskList = gulpfs.readdirSync('./gulp/tasks/');// 获取 gulp/tasks/ 目录下所有的文件名称列表
+const taskRoot = './gulp/tasks/'
+const gulpTaskList = gulpfs.readdirSync(taskRoot);// 获取 taskRoot 目录下所有的文件名称列表
 
 // 用到的插件全部挂载到plugins上
-plugins.babel = require('gulp-babel');// babel
+// plugins.babel = require('gulp-babel');// babel
 plugins.bump = require('gulp-bump');// 更新version，gulp-update-version
 plugins.shell = require('shelljs');// 执行脚本命令
 plugins.jeditor = require('gulp-json-editor');// 编辑json
@@ -89,7 +90,7 @@ const gulpFilesTasks = () => {
     // 遍历文件列表
     gulpTaskList.forEach(function(fileName) {
         // 获取文件
-        let fileObj = require(`./gulp/tasks/${fileName}`);
+        let fileObj = require(`${taskRoot}${fileName}`);
         // 获取文件中的 tasks
         let fileTasks = gulpFileTasks(fileObj);
         // 挂载 tasks
